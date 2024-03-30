@@ -9,7 +9,7 @@ Mario::Mario(){
     lives = 3; //some default amount of lives
 }
 
-//constructor
+//overloaded constructor
 Mario::Mario(int V){
     notRunning = false; //game starts
     enemiesDefeated = 0; //default enemies defeated
@@ -20,7 +20,7 @@ Mario::Mario(int V){
 
 //destructor
 Mario::~Mario(){
-    //nothing to destruct
+    //nothing to destruct :D
 }
 
 //GoombaWin (80% win rate)
@@ -126,7 +126,7 @@ bool Mario::PowerDownBool(){
     if (power == 0){ 
         lives -= 1; //loses life if power was equal to 0
         enemiesDefeated = 0; //enemies defeated resets
-        return true; //returns true if life was lost (to implement in Goomba and Koopa gameplay loop)
+        return true; //returns true if life was lost (to implement in Goomba and Koopa Troopa gameplay loop)
     }
     else{
         power -= 1;

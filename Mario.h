@@ -19,7 +19,7 @@ class Mario{
         //core methods
         bool GoombaWin(); //simulates Goomba encounter and returns true for win
         bool KoopaWin(); //simulates Koopa encounter and returns true for win
-        bool BossWin(); //simulates Koopa encounter and returns true for win
+        bool BossWin(); //simulates Boss encounter and returns true for win
 
         void GameEnd(); //to be called when game has ended
         bool IsRunning(); //returns true when mario is still running (has not died)
@@ -29,7 +29,7 @@ class Mario{
         void EnemyDefeated(); //adds an enemy to enemies defeated in one life
         void CheckEnemies(); //checks if 7 enemies are defeated and adds a life correspondingly
 
-        int AddCoin(); // adds coin to pouch
+        int AddCoin(); // adds coin to mario's collection
         bool CheckTwentyCoins(); //checks if 20 coins, adds life correspondingly, and returns true/false
 
         void PowerUp(); //powers up
@@ -41,8 +41,8 @@ class Mario{
         int GetPower() const; //returns power level
         int GetLives() const; //returns lives
 
-        static const unsigned int COINS_FOR_LIFE = 20;
-        static const unsigned int ENEMIES_FOR_LIFE = 7;
+        static const unsigned int COINS_FOR_LIFE = 20; //upon 20 coins collected mario earns a life
+        static const unsigned int ENEMIES_FOR_LIFE = 7; //upon 7 enemies defeated in a row, mario earns a life
 
     private:
         int power; //power level
@@ -50,7 +50,7 @@ class Mario{
         int coins; //coins
         int enemiesDefeated; //enemies defeated in a row (tracker)
     
-        bool notRunning; //true if game has ended
+        bool notRunning; //true if game has ended, false otherwise
 
 };
 

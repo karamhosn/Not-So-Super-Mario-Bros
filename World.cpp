@@ -5,7 +5,7 @@
 World::World(){
     fout = ""; 
     something = ' ';
-    L = 2; //levels
+    L = 2; //some default levels
     finalLvl = L - 1; //final level
     N = 2; //dimensions
     lvl = 0; //current level
@@ -24,12 +24,12 @@ World::World(){
     }
 }
 
-//constructor
+//overloaded constructor
 World::World(int lvl, int dim, int c, int x, int g, int kp, int m){
 
-    L = lvl;
+    L = lvl; //levels
     finalLvl = L - 1; //final level
-    N = dim;
+    N = dim; //dimensions of each level
 
     //create 3D array
     myArray = new char**[L];
@@ -47,11 +47,10 @@ World::World(int lvl, int dim, int c, int x, int g, int kp, int m){
     uniform_int_distribution<int> dist(1,100);
     int rn;
 
-
+    //iterate through 3D array
     for (int i = 0; i < L; i++) {
         for (int j = 0; j < N; j++) {
-            for (int k = 0; k < N; k++) 
-            {
+            for (int k = 0; k < N; k++) {
                 rn = dist(rd); //generates random num between 1-100
 
                 //generates a feature in level based on probability given
@@ -103,7 +102,7 @@ World::~World(){
     delete[] myArray;
 }
 
-//print
+//prints world
 void World::print(){
     for (int i = 0; i < L; i++) {
         for (int j = 0; j < N; j++) {
@@ -119,7 +118,7 @@ void World::print(){
     }
 }
 
-//print level
+//prints level
 void World::print(int lvl){
     for (int p = 0; p < (N+5); p++){
             fout += "=";
@@ -140,7 +139,6 @@ void World::print(int lvl){
 //MarioSim (gameplay siimulation)
 void World::MarioSim(Mario* mario){
 
-    //int finalLvl = L - 1;
     NewLevel();
 
     //defines a character as some feature on the map
@@ -162,19 +160,20 @@ void World::MarioSim(Mario* mario){
 
         //the if statement checks for what feature 'something' is
         //and calls methods according to gameplay rules
-        if (something == 'x')
+
+        if (something == 'x') //if nothing
         {
             nothing(mario);
             MovesOn(marioX, marioY);
             moves += 1;
         }
-        else if (something == 'c') 
+        else if (something == 'c') //if coin
         {
             coin(mario);
             MovesOn(marioX, marioY);
             moves += 1;
         }
-        else if (something == 'g')
+        else if (something == 'g') //if goomba
         {
             goomba(mario);
             if (mario->IsDead()) 
@@ -196,7 +195,7 @@ void World::MarioSim(Mario* mario){
                 moves += 1;
             }
         }
-        else if (something == 'k')
+        else if (something == 'k') //if koopa troopa
         {
             koopa(mario);
             if (mario->IsDead())
@@ -218,13 +217,13 @@ void World::MarioSim(Mario* mario){
                 moves += 1;
             }
         }
-        else if (something == 'm')
+        else if (something == 'm') //if mushroom
         {
             mushroom(mario);
             MovesOn(marioX, marioY);
             moves += 1;
         }
-        else if (something == 'b')
+        else if (something == 'b') //if boss
         {
             boss(mario);
             if (mario->IsDead())
@@ -256,7 +255,7 @@ void World::MarioSim(Mario* mario){
                 moves += 1;
             }
         }
-        else if (something == 'w') 
+        else if (something == 'w') //if warp
         {
             warp();
             continue;
@@ -343,7 +342,10 @@ void World::NewLevel(){
     marioY = dist(rd);
 }
 
+//nothing
 void World::nothing(Mario* mario){
+
+    //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Power level: " + to_string(mario->GetPower()) + ".\n";
@@ -352,14 +354,21 @@ void World::nothing(Mario* mario){
     fout += "Coins: " + to_string(mario->GetCoins()) + ".\n";
 }
 
+//coin
 void World::coin(Mario* mario){
+
     //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Power level: " + to_string(mario->GetPower()) + ".\n";
     
-    const int numCoins = mario->AddCoin(); //adds coin to pouch
+    //adds coin to pouch
+    const int numCoins = mario->AddCoin();
+
+    //file output
     fout += "Mario found a coin. He now has " + to_string(numCoins) + " coin(s). ";
+
+    //checking if mario has twenty coins
     bool twentyCoins = mario->CheckTwentyCoins();
     if (twentyCoins){
         fout += "Mario has gained a life. Mario now has \n" + to_string(mario->GetLives()) + " many lives.\n";
@@ -367,7 +376,9 @@ void World::coin(Mario* mario){
     else {
         fout += "\n";
     }
-    myArray[lvl][marioX][marioY] = 'x'; //area is empty
+
+    //area is now empty
+    myArray[lvl][marioX][marioY] = 'x';
 
     //file output
     fout += "Lives: " + to_string(mario->GetLives()) + ".\n";
@@ -376,35 +387,37 @@ void World::coin(Mario* mario){
 
 //goomba
 void World::goomba(Mario* mario){
+
     //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Power level: " + to_string(mario->GetPower()) + ".\n";
     fout += "Mario encountered a Goomba ";
 
+    //mario fights goomba
     bool win = mario->GoombaWin();
 
     if (win) //if mario wins
     {
         mario->EnemyDefeated(); //add enemy to defeats in one life
         mario->CheckEnemies(); //check if 7 enemies are defeated in one life
-        myArray[lvl][marioX][marioY] = 'x'; //area is empty
+        myArray[lvl][marioX][marioY] = 'x'; //area is now empty
     }
     else //else mario loses
     {
         bool lifeLost = mario->PowerDownBool(); //checks if life is lost
         bool isDead = mario->IsDead(); //checks if mario is dead
         if (lifeLost && !isDead){ //if life is lost and mario is not dead keep fighting
-            while (!isDead) {
-                win = mario->GoombaWin();
+            while (!isDead) { //while mario isn't dead
+                win = mario->GoombaWin(); //mario fights goomba
 
-                if (win){
-                    myArray[lvl][marioX][marioY] = 'x'; //area is empty
+                if (win){ //if mario wins
+                    myArray[lvl][marioX][marioY] = 'x'; //area is now empty
                     break;
                 }
-                else {
-                    mario->PowerDown();
-                    isDead = mario->IsDead();
+                else { //else mario loses
+                    mario->PowerDown(); //powers down
+                    isDead = mario->IsDead(); //checks if mario is dead
                 }
             }
         } 
@@ -413,12 +426,14 @@ void World::goomba(Mario* mario){
 
 //koopa
 void World::koopa(Mario* mario){
+
     //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Power level: " + to_string(mario->GetPower()) + ".\n";
     fout += "Mario encountered a Koopa Troopa ";
 
+    //mario fights koopa troopa
     bool win = mario->KoopaWin();
 
     if (win) //if mario wins
@@ -432,16 +447,16 @@ void World::koopa(Mario* mario){
         bool lifeLost = mario->PowerDownBool(); //checks if life is lost
         bool isDead = mario->IsDead(); //checks if mario is dead
         if (lifeLost && !isDead){ //if life is lost and not dead keep fighting
-            while (!isDead) {
-                win = mario->KoopaWin();
+            while (!isDead) { //while mario isn't dead
+                win = mario->KoopaWin(); //mario fights koopa troopa
 
-                if (win){
+                if (win){ //if mario wins
                     myArray[lvl][marioX][marioY] = 'x'; //area is empty
                     break;
                 }
-                else {
-                    mario->PowerDown();
-                    isDead = mario->IsDead();
+                else { //else mario loses
+                    mario->PowerDown(); //powers down
+                    isDead = mario->IsDead(); //checks if mario is dead
                 }
             }
         }  
@@ -450,13 +465,17 @@ void World::koopa(Mario* mario){
 
 //mushroom
 void World::mushroom(Mario* mario){
+
     //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Power level: " + to_string(mario->GetPower()) + ".\n";
     
-    mario->PowerUp(); // increase power level
-    myArray[lvl][marioX][marioY] = 'x'; //area is empty
+    //power up!
+    mario->PowerUp();
+
+    //area is now empty
+    myArray[lvl][marioX][marioY] = 'x';
 
     //file output
     fout += "Mario found a mushroom. Mario powered up to level " + to_string(mario->GetPower()) + ".\n";
@@ -466,16 +485,17 @@ void World::mushroom(Mario* mario){
 
 //boss
 void World::boss(Mario* mario){
+
     //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Power level: " + to_string(mario->GetPower()) + ".\n";
     fout += "Mario encountered a boss and ";
 
-    //int finalLvl = L - 1;
+    //mario fights a boss!
     bool win = mario->BossWin();
 
-    if (lvl == finalLvl){ //if on final level (win or lose situation)
+    if (lvl == finalLvl){ //if mario is on the final level (win or lose situation)
 
         if (!win) //if he loses
         {
@@ -483,16 +503,16 @@ void World::boss(Mario* mario){
             mario->PowerDown();
             bool isDead = mario->IsDead(); // checks if mario is dead
             if (!isDead){ // if mario is not dead keep fighting boss
-                while (!isDead) {
-                    win = mario->BossWin();
+                while (!isDead) { //while mario is not dead
+                    win = mario->BossWin(); //mario fights boss
 
-                    if (win){
+                    if (win){ //if mario wins
                         break;
                     }
-                    else {
+                    else { //else mario loses
+                        mario->PowerDown(); //powers down twice
                         mario->PowerDown();
-                        mario->PowerDown();
-                        isDead = mario->IsDead();
+                        isDead = mario->IsDead(); //checks if mario is dead
                     }
                 }
             }
@@ -504,25 +524,25 @@ void World::boss(Mario* mario){
         {
             mario->EnemyDefeated(); //add enemy to defeats in one life
             mario->CheckEnemies(); //check if 7 enemies are defeated in one life
-            myArray[lvl][marioX][marioY] = 'x'; //area is empty
+            myArray[lvl][marioX][marioY] = 'x'; //area is now empty
         }
-        else  //else he loses to boss
+        else  //else he loses to normal boss
         {
             mario->PowerDown(); //powers down twice
             mario->PowerDown();
             bool isDead = mario->IsDead(); //checks if mario is dead
             if (!isDead){ //if mario is not dead keep fighting boss
-                while (!isDead) {
-                    win = mario->BossWin();
+                while (!isDead) { //while mario is not dead
+                    win = mario->BossWin(); //mario fights boss
 
-                    if (win){
-                        myArray[lvl][marioX][marioY] = 'x'; //area is empty
+                    if (win){ //if mario wins
+                        myArray[lvl][marioX][marioY] = 'x'; //area is now empty
                         break;
                     }
-                    else {
+                    else { //else mario loses
+                        mario->PowerDown(); //mario powers down twice
                         mario->PowerDown();
-                        mario->PowerDown();
-                        isDead = mario->IsDead();
+                        isDead = mario->IsDead(); //checks if mario is dead
                     }
                 }
             }
@@ -530,33 +550,48 @@ void World::boss(Mario* mario){
     }
 } 
 
+//warp
 void World::warp(){
+
+    //file output
     fout += "Level: " + to_string(lvl) + ". Mario is at position: (" 
     + to_string(marioX) + ", " + to_string(marioY) + ").\n";
     fout += "Mario found a warp pipe. ";
     fout += "Mario will warp to\nthe next level!\n";
+
+    //mario warps to next level!
     lvl = lvl + 1;
     NewLevel();
 
-    something = myArray[lvl][marioX][marioY];
-    myArray[lvl][marioX][marioY] = 'H';
-            
+    //mario has now warped to a random position in the next level
+    something = myArray[lvl][marioX][marioY]; //set something equal to mario's current position
+    myArray[lvl][marioX][marioY] = 'H'; //update mario's current position to be reflected in array
+    
+    //file output
     print(lvl);
     fout += "Level: " + to_string(lvl) + ". Mario will start at position: (" + to_string(marioX) + ", " + to_string(marioY) +  ").\n";
-    myArray[lvl][marioX][marioY] = 'x'; //area is empty
+
+    //area is now empty
+    myArray[lvl][marioX][marioY] = 'x';
 }
 
 //loss
 void World::loss(){
+
+    //file output
     fout += "YOU LOST THE GAME.\n";
 }
 
 //win
 void World::win(){
-    fout += "YOU BEAT THE GAME! :D\n";
+
+    //file output
+    fout += "PRINCESS PEACH WAS SAVED. YOU BEAT THE GAME! :D\n";
 }
 
 //output (for game log)
 string World::output() const{
+
+    //return file output
     return fout;
 }

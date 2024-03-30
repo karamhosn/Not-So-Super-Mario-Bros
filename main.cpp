@@ -2,7 +2,7 @@
 
 using namespace std;
 
-//function to validate each line of input (must be a positive integer)
+//isPositiveInt() function to validate each line of input (must be a positive integer)
 bool isPositiveInt(string input)
 {
     if (input.empty())
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
     cout << "Press 'p' to start (otherwise program will exit): ";
     cin >> play;
 
-    //if letter entered isn't 'p' exit
+    //if letter entered isn't 'p', exit
     if (tolower(play[0]) != 'p' || play.size() > 1) 
     {
         cout << endl << "Program has exited." << endl;
@@ -153,13 +153,13 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    //initialize mario's world
+    //instantiate world
     World *myWorld = new World(L, N, c, x, g, k, m);
 
-    //initialize mario
+    //instantiate mario
     Mario* mario = new Mario(V);
 
-    //sim game
+    //simulate game
     myWorld->MarioSim(mario);
 
     string ofilename = "myMarioSim.txt"; //file name
