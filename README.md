@@ -2,29 +2,28 @@
 
 --------------------------------------------------- TITLE ---------------------------------------------------------------
 
-**Project Title**: Not So Super Mario Bros Game Simulation
+__**Project Title**__: Not So Super Mario Bros Game Simulation
 
 --------------------------------------------------- GOALS ---------------------------------------------------------------
 
-**Project goals**:
+__**Project goals**__:
 
-Goal: Implement a Super Mario Bros inspired simulation.
+**Goal**: Implement a Super Mario Bros inspired simulation.
 
-Gameplay:
+**Gameplay**:
 
 Our Not So Super Mario Bros. simulation is a far cry from the original game, but the goal remains the same 
 – defeat Bowser and save the princess. The game simulation is carried out in a world that consists of a fixed 
-number of levels. Mario must navigate the levels, encountering enemies and power-ups, and collecting coins, 
-- before engaging a boss to move onto the next level. A general outline of the program follows below.
+number of levels. Mario must navigate the levels, encountering enemies and power-ups, and collecting coins, before engaging a boss to move onto the next level. A general outline of the program follows below.
 
-The World:
+**The World**:
 
 The world consists of a number of levels, L, which will be provided at runtime. To finish the
 game, Mario must navigate from level 1 to level L by defeating intermediate bosses and defeat
 the final boss in level L. If Mario runs out of lives before this task is accomplished, the game is
 lost.
 
-Mario - Our Protagonist:
+**Mario - Our Protagonist**:
 
 In our simulation, Mario starts with a number of lives, V, which will be provided at runtime. Mario
 also has the ability to collect coins. He starts with 0 coins. For every 20 coins collected, he earns
@@ -33,7 +32,7 @@ levels, PL0, PL1, and PL2. PL0 is the weakest and PL2 is the strongest. Mario ca
 power levels by coming in contact with a mushroom (a “magic” mushroom), and loses a power
 level if hurt by an enemy.
 
-A Level:
+**A Level**:
 
 Each level in our game is represented by an NxN grid (think 2D array), with N provided at
 runtime. Mario may navigate the grid by moving up, down, left, and right only. The grid wraps
@@ -96,7 +95,7 @@ loses while at PL0 or PL1, in which case a life is lost. If Mario has another li
 continues at the same location, with PL0. Otherwise, the simulation ends, and the game
 is lost.
 
-The Program:
+**The Program**:
 
 The program will take as command line input the name of a plain text file that has the following
 format:
@@ -133,14 +132,7 @@ Each subsequent line of the file should specify:
 - The level number
 - The position location of Mario (a row and column number)
 - The current power level of Mario before interacting with the position
-- The action that was taken in that position
-○ Mario collected a coin
-○ Mario ate a mushroom
-○ Mario fought a Goomba and won/lost
-○ Mario fought a Koopa and won/lost
-○ Mario fought the level boss and won/lost
-○ The position is empty
-○ Mario warped
+- The action that was taken in that position:
 - The number of lives Mario has after interacting with the position
 - The number of coins Mario has after interacting with the position
 - The direction that Mario will move next (UP, DOWN, LEFT, RIGHT)
@@ -148,7 +140,7 @@ Each subsequent line of the file should specify:
 The last line of the file should specify whether Mario won or lost the game, and the total number
 of moves it took to reach that point.
 
-Data Structure:
+**Data Structure**:
 The world is represented (textually) as a 3D LxNxN array of characters. For each of the L
 levels, each of the NxN grid positions are represented by the following characters:
 - x - nothing
@@ -163,7 +155,7 @@ levels, each of the NxN grid positions are represented by the following characte
 
 --------------------------------------------------- IMPLEMENTATION ----------------------------------------------------------
 
-**Project Implementation**:
+__**Project Implementation**__:
 
 The program starts in **main** with a proper introduction to the game and the **rules of engagement**. In order to simulate the mock Super Mario Bros game, the user must provide, as input, the name of a .txt file with the following information:
 
@@ -191,37 +183,40 @@ The simulation relies on two classes (besides main). One class represents our pr
 
 
 **Mario Class**:
+
 This class initializes and regulates Mario's power level, lives, coins, enemies defeated, and the game's end.
 
 The constructor takes in an integer argument of lives, provided by the user in the file given.
 
 Mario Class methods:
 
-- bool GoombaWin(); -- simulates Goomba encounter (returns true for win, false for loss)
-- bool KoopaWin(); -- simulates Koopa Troopa ecounter (returns true for win, false for loss)
-- bool BossWin(); -- simulates Boss encounter (returns true for win, false for loss)
+``` cpp
+    bool GoombaWin(); // simulates Goomba encounter (returns true for win, false for loss)
+    bool KoopaWin(); // simulates Koopa Troopa ecounter (returns true for win, false for loss)
+    bool BossWin(); // simulates Boss encounter (returns true for win, false for loss)
 
-- void GameEnd(); -- to be called in World class when game has ended
-- bool IsRunning(); -- returns true if Mario is alive, false if Mario is not alive
+    void GameEnd(); // to be called in World class when game has ended
+    bool IsRunning(); // returns true if Mario is alive, false if Mario is not alive
 
-- bool IsDead(); -- checks if mario is dead
+    bool IsDead(); // checks if mario is dead
 
-- void EnemyDefeated(); -- adds an enemy to enemies defeated in one life
-- void CheckEnemies(); -- checks if 7 enemies are defeated in one life and adds a life correspondingly
+    void EnemyDefeated(); // adds an enemy to enemies defeated in one life
+    void CheckEnemies(); // checks if 7 enemies are defeated in one life and adds a life correspondingly
 
-- int AddCoin(); -- adds coin to Mario's collection
-- bool CheckTwentyCoins(); -- checks if mario has 20 coins, adds life correspondingly (true if 20 coins, else false)
+    int AddCoin(); // adds coin to Mario's collection
+    bool CheckTwentyCoins(); // checks if mario has 20 coins, adds life correspondingly (true if 20 coins, else false)
 
-- void PowerUp(); -- Mario powers up
-- bool PowerDownBool(); -- Mario powers down (returns true if life is lost, else false)
-- void PowerDown(); -- Mario powers down
+    void PowerUp(); // Mario powers up
+    bool PowerDownBool(); // Mario powers down (returns true if life is lost, else false)
+    void PowerDown(); // Mario powers down
 
-- int GetCoins() const; -- returns Mario's coins
-- int GetPower() const; -- returns Mario's power level
-- int GetLives() const; -- returns Mario's lives
+    int GetCoins() const; // returns Mario's coins
+    int GetPower() const; // returns Mario's power level
+    int GetLives() const; // returns Mario's lives
+```
 
+**World Class**:
 
-**World Class:**
 This class initializes a 3D LxNxN array of characters -- Where L represents the number of levels and N represents the dimensions of each level.
 
 For each of the L levels, each of the NxN grid positions are represented by the following characters:
@@ -237,32 +232,44 @@ For each of the L levels, each of the NxN grid positions are represented by the 
 Features are generated using the percentages given by the user. Along with those features generated are level bosses placed randomly on each level, and warp pipes placed randomly on every level except the last.
 
 World Class methods:
-- void MarioSim(Mario* mario); -- simulates a Super Mario Bros game
 
-- void nothing(Mario* mario); -- called in MarioSim() when Mario finds nothing
-- void coin(Mario* mario); -- called in MarioSim when Mario finds a coin
-- void goomba(Mario* mario); -- called in MarioSim when Mario finds a Goomba
-- void koopa(Mario* mario); -- called in MarioSim when Mario finds a Koopa
-- void mushroom(Mario* mario); --  called in MarioSim when Mario finds a magic mushroom
-- void boss(Mario* mario); -- called in MarioSim when Mario finds a boss
-- void warp(); -- called in MarioSim when Mario find a warp
+```cpp
+    void MarioSim(Mario* mario); // simulates a Super Mario Bros game
 
-- void NewLevel(); -- generate random coordinates (used once Mario warps)
-- void MovesOn(int x, int y); -- implements Mario's movement (up 1, down 1, left 1, or right 1)
-- char direction(); -- generates a random direction for MovesOn() (25% probability each direction)
+    void nothing(Mario* mario); // called in MarioSim() when Mario finds nothing
+    void coin(Mario* mario); // called in MarioSim when Mario finds a coin
+    void goomba(Mario* mario); // called in MarioSim when Mario finds a Goomba
+    void koopa(Mario* mario); // called in MarioSim when Mario finds a Koopa
+    void mushroom(Mario* mario); // called in MarioSim when Mario finds a magic mushroom
+    void boss(Mario* mario); // called in MarioSim when Mario finds a boss
+    void warp(); // called in MarioSim when Mario find a warp
 
-- void print(); -- concatenates pretty representation of the world (3D array) to a string
-- void print(int lvl); -- concatenates the level (NxN array) Mario is on to a string
-- void loss(); -- concatenates loss message to a string
-- void win(); -- concatenates win message to a string
-- string output() const; -- returns the game log as a string
+    void NewLevel(); // generate random coordinates (used once Mario warps)
+    void MovesOn(int x, int y); // implements Mario's movement (up 1, down 1, left 1, or right 1)
+    char direction(); // generates a random direction for MovesOn() (25% probability each direction)
 
+    void print(); // concatenates pretty representation of the world (3D array) to a string
+    void print(int lvl); // concatenates the level (NxN array) Mario is on to a string
+    void loss(); // concatenates loss message to a string
+    void win(); // concatenates win message to a string
+    string output() const; // returns the game log as a string
+```
+
+**Main**:
 
 In main, we **instantiate** a **Mario object** (with lives, V), and a **World object** (with levels, dimensions, and percentages).
 
-We **simulate a game** using the World class method -- **MarioSim(Mario* mario)** -- that takes a pointer to our Mario object as parameter.
+We **simulate a game** using the World class method:
 
-We **create an output file** and **write to it** using the World class method -- **output()**.
+```cpp
+    void MarioSim(Mario* mario);
+```
+
+We **create an output file** and **write to it** using the World class method: 
+
+```cpp
+    string output() const;
+```
 
 Before our program exits, we **clear the heap** of our Mario and World objects.
 
@@ -271,7 +278,7 @@ Finally, **the program exits**.
 
 --------------------------------------------------- SAMPLE INPUT ----------------------------------------------------------
 
-**Sample Input Files**:
+__**Sample Input Files**__:
 
 Provided in this repository are 12 sample input files. 
 
