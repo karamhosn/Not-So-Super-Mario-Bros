@@ -1,10 +1,10 @@
 # Not-So-Super-Mario-Bros
 
---------------------------------------------------- TITLE ---------------------------------------------------------------
+--------------------------------------------------- TITLE ------------------------------------------
 
 __**Project Title**__: Not So Super Mario Bros Game Simulation
 
---------------------------------------------------- GOALS ---------------------------------------------------------------
+--------------------------------------------------- GOALS -----------------------------------------
 
 __**Project goals**__:
 
@@ -153,7 +153,7 @@ levels, each of the NxN grid positions are represented by the following characte
 - H - stands for hero. Mario’s current position.
 
 
---------------------------------------------------- IMPLEMENTATION ----------------------------------------------------------
+--------------------------------------------------- IMPLEMENTATION ----------------------------------------
 
 __**Project Implementation**__:
 
@@ -276,7 +276,7 @@ Before our program exits, we **clear the heap** of our Mario and World objects.
 Finally, **the program exits**.
 
 
---------------------------------------------------- SAMPLE INPUT ----------------------------------------------------------
+------------------------------------------------- SAMPLE INPUT -----------------------------------
 
 __**Sample Input Files**__:
 
@@ -334,4 +334,4 @@ Sample 12 - Invalid Integer:
 - File contains 8 lines, but has an invalid integer, breaking a rule of an engagement.
 - The program outputs a corresponding error message to the user.
 
---------------------------------------------------- END --------------------------------------------------------------
+-------------------------------------------- END ---------------------------------
